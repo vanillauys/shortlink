@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from schemas import Schemas
 from dotenv import load_dotenv
+from shorten.shorten import Shortener
 
 
 # ---------------------------------------------------------------------------- #
@@ -16,6 +17,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 schemas = Schemas()
+shortener = Shortener()
 
 TAGS_METADATA = [
     {
@@ -25,7 +27,15 @@ TAGS_METADATA = [
             "description": "FastAPI Documentation",
             "url": "https://fastapi.tiangolo.com/",
         }
-    }
+    },
+    {
+        "name": "Links",
+        "description": "Routes to shorten links, save and retrieve it.",
+        "externalDocs": {
+            "description": "Cuttly documentation",
+            "url": "https://cutt.ly/api-documentation/regular-api",
+        }
+    },
 ]
 
 
@@ -34,7 +44,7 @@ app = FastAPI(
     title="Shortener Backend",
     description="URL Shortener with cutt.ly",
     version="0.0.1",
-    terms_of_service="",
+    terms_of_service="https://vanillauys.vercel.app/about",
     contact={
         "name": "Wihan Uys",
         "url": "https://vanillauys.vercel.app/about",
@@ -45,6 +55,7 @@ app = FastAPI(
         "url": "https://spdx.org/licenses/MIT.html",
     },
     openapi_tags=TAGS_METADATA,
+    openapi_url='/openapi.json'
 )
 
 # Allow CORS
@@ -73,9 +84,27 @@ def info():
     ### Basic route to test functionality.
     """
     response = {
-        'detail': "https://vanillauys-1-t9282601.deta.app/"
+        'detail': "view /docs for documentation."
     }
     return JSONResponse(status_code=200, content=response)
+
+
+@app.post('/shorten', tags=['Links'],
+    response_model=schemas.Link,
+    responses={
+        400: {"model": schemas.Detail},
+        401: {"model": schemas.Detail},
+        409: {"model": schemas.Detail},
+        429: {"model": schemas.Detail},
+        500: {"model": schemas.Detail},
+    }
+)
+async def shorten(shorten: schemas.ShortenLink):
+    """
+    ### To shorten a link
+    """
+    code, response = shortener.shorten_link(shorten.url)
+    return JSONResponse(status_code=code, content=response)
 
 
 # ---------------------------------------------------------------------------- #

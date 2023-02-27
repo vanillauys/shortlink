@@ -3,8 +3,7 @@
 # ---------------------------------------------------------------------------- #
 
 
-from pydantic import BaseModel, EmailStr
-from typing import Dict
+from pydantic import BaseModel
 
 
 # ---------------------------------------------------------------------------- #
@@ -13,7 +12,35 @@ from typing import Dict
 
 
 class Schemas:
+
+
+    # ------------------------------------------------------------------------ #
+    # --- General Schemas ---------------------------------------------------- #
+    # ------------------------------------------------------------------------ #
+
+
     class DetailClass(BaseModel):
         detail: str
 
     Detail: DetailClass = DetailClass
+
+
+    # ------------------------------------------------------------------------ #
+    # --- Links Schemas ------------------------------------------------------ #
+    # ------------------------------------------------------------------------ #
+
+
+    class LinkClass(BaseModel):
+        status: int
+        fullLink: str
+        date: str
+        shortLink: str
+        title: str
+
+    Link: LinkClass = LinkClass
+
+
+    class ShortenLinkClass(BaseModel):
+        url: str
+
+    ShortenLink: ShortenLinkClass = ShortenLinkClass
