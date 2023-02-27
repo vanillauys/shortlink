@@ -45,7 +45,6 @@ app = FastAPI(
         "url": "https://spdx.org/licenses/MIT.html",
     },
     openapi_tags=TAGS_METADATA,
-    openapi_url="/openapi.json",
 )
 
 # Allow CORS
