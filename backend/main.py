@@ -103,7 +103,7 @@ async def shorten(shorten: schemas.ShortenLink):
     """
     ### To shorten a link
     """
-    code, response = shortener.shorten_link(shorten.url)
+    code, response = await shortener.shorten_link(shorten.url)
     return JSONResponse(status_code=code, content=response)
 
 
