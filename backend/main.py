@@ -3,9 +3,12 @@
 # ---------------------------------------------------------------------------- #
 
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
+from fastapi.openapi.docs import (
+    get_swagger_ui_html,
+)
 from schemas import Schemas
 from dotenv import load_dotenv
 from shorten.shorten import Shortener
@@ -55,7 +58,7 @@ app = FastAPI(
         "url": "https://spdx.org/licenses/MIT.html",
     },
     openapi_tags=TAGS_METADATA,
-    openapi_url='/openapi.json'
+    openapi_url="/openapi.json",
 )
 
 # Allow CORS
@@ -71,6 +74,16 @@ app.add_middleware(
 # ---------------------------------------------------------------------------- #
 # --- Basic API Route -------------------------------------------------------- #
 # ---------------------------------------------------------------------------- #
+
+
+@app.get("/docs", include_in_schema=False)
+async def custom_swagger_ui_html(req: Request):
+    root_path = req.scope.get("root_path", "").rstrip("/")
+    openapi_url = root_path + app.openapi_url
+    return get_swagger_ui_html(
+        openapi_url=openapi_url,
+        title="API",
+    )
 
 
 @app.get('/', tags=['Testing'],
