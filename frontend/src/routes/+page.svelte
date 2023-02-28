@@ -18,11 +18,11 @@
 				url: url
 			});
 			data = response.data;
+			await create_link(data);
+			await get_all_links();
 			error = false;
 			errMsg = '';
 			loading = false;
-			async () => await get_all_links();
-			async () => await create_link(data);
 		} catch (e: any) {
 			error = true;
 			data = null;
@@ -118,7 +118,7 @@
 			<Link title={link.title} fullLink={link.fullLink} shortLink={link.shortLink} date={link.date} />
 		{/each}
 	{:else if loading}
-		<progress class="progress w-2/5 mx-auto my-12"></progress>
+		<progress class="progress w-2/5 mx-auto my-12 text-center"></progress>
 	{:else}
 		<p class="py-12 mx-auto text-center">No links shortened yet...</p>
 	{/if}
