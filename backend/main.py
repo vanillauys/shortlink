@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 from schemas import Schemas
 from dotenv import load_dotenv
 from shorten.shorten import Shortener
+from db.links import LinksDB
 
 
 # ---------------------------------------------------------------------------- #
@@ -18,6 +19,7 @@ from shorten.shorten import Shortener
 load_dotenv()
 schemas = Schemas()
 shortener = Shortener()
+db = LinksDB()
 
 TAGS_METADATA = [
     {
@@ -110,6 +112,34 @@ async def shorten(shorten: schemas.ShortenLink):
     ### To shorten a link
     """
     code, response = await shortener.shorten_link(shorten.url)
+    return JSONResponse(status_code=code, content=response)
+
+
+@app.post('/create', tags=['Links'],
+    response_model=schemas.Detail,
+    responses={
+        500: {"model": schemas.Detail},
+    }
+)
+def create(link: schemas.Link):
+    """
+    ### Save a shortened link.
+    """
+    code, response = db.create_link(link)
+    return JSONResponse(status_code=code, content=response)
+
+
+@app.get('/get', tags=['Links'],
+    response_model=list[schemas.Link],
+    responses={
+        500: {"model": schemas.Detail},
+    }
+)
+def get():
+    """
+    ### Get all saved links.
+    """
+    code, response = db.get_all()
     return JSONResponse(status_code=code, content=response)
 
 

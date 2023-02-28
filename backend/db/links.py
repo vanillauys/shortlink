@@ -34,7 +34,21 @@ class LinksDB():
         }
         try:
             self.links.put(data)
-            return 200, f"Successfully created shortlink for '{link.fullLink}'."
+            return 200, {'detail': f"Successfully created shortlink for '{link.fullLink}'."}
         except Exception:
-            return 500, f"An error occured while saving shortlink for '{link.fullLink}'"
+            return 500, {'detail': f"An error occured while saving shortlink for '{link.fullLink}'"}
+
+
+    def get_all(self) -> Tuple[int, list]:
+        try:
+            res = self.links.fetch()
+            all_items = res.items
+
+            # fetch until last is 'None'
+            while res.last:
+                res = self.links.fetch(last=res.last)
+                all_items += res.items
+            return 200, all_items
+        except Exception:
+            return 500, {'detail': "An error occured while fetching all shortlinks"}
 
