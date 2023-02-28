@@ -28,7 +28,7 @@
 			data = null;
 			errMsg = e.response.data.detail;
 			if (errMsg == undefined) {
-				errMsg = "Something went wrong..."
+				errMsg = 'Something went wrong...';
 			}
 			loading = false;
 		}
@@ -54,7 +54,7 @@
 			data = null;
 			errMsg = e.response.data.detail;
 			if (errMsg == undefined) {
-				errMsg = "Something went wrong..."
+				errMsg = 'Something went wrong...';
 			}
 			loading = false;
 		}
@@ -72,7 +72,7 @@
 			error = true;
 			errMsg = e.response.data.detail;
 			if (errMsg == undefined) {
-				errMsg = "Something went wrong..."
+				errMsg = 'Something went wrong...';
 			}
 			loading = false;
 		}
@@ -107,18 +107,24 @@
 	</form>
 
 	{#if error}
-		<Error errMsg={errMsg} />
+		<Error {errMsg} />
 	{/if}
-
 </div>
 
 <div class="container mx-auto py-12 px-12">
-	{#if !loading && links != null && links.length > 0}	
+	{#if !loading && links != null && links.length > 0}
 		{#each links as link}
-			<Link title={link.title} fullLink={link.fullLink} shortLink={link.shortLink} date={link.date} />
+			<Link
+				title={link.title}
+				fullLink={link.fullLink}
+				shortLink={link.shortLink}
+				date={link.date}
+			/>
 		{/each}
 	{:else if loading}
-		<progress class="progress w-2/5 mx-auto my-12 text-center"></progress>
+		<div class="mx-auto w-2/5 my-12">
+			<progress class="progress w-full mx-auto" />
+		</div>
 	{:else}
 		<p class="py-12 mx-auto text-center">No links shortened yet...</p>
 	{/if}
