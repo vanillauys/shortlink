@@ -55,7 +55,7 @@ class LinksDB():
 
     def delete_link(self, key: str) -> Tuple[int, str]:
         try:
-            self.links.delete("one")
+            self.links.delete(key)
             return 200, {'detail': f"Successfully deleted {key}"}
         except Exception:
             return 500, {'detail': f"An error occured while deleting {key}"}

@@ -22,6 +22,7 @@
 			await get_all_links();
 			error = false;
 			errMsg = '';
+			url = '';
 			loading = false;
 		} catch (e: any) {
 			error = true;
@@ -60,6 +61,27 @@
 		}
 	}
 
+	async function delete_link(key: string) {
+		loading = true;
+		let data: any;
+		try {
+			const response = await axios.delete(window.location.origin + '/api/delete?key=' + key);
+			data = response.data.detail;
+			error = false;
+			errMsg = '';
+			loading = false;
+			await get_all_links();
+		} catch (e: any) {
+			error = true;
+			data = null;
+			errMsg = e.response.data.detail;
+			if (errMsg == undefined) {
+				errMsg = 'Something went wrong...';
+			}
+			loading = false;
+		}
+	}
+
 	async function get_all_links() {
 		loading = true;
 		try {
@@ -70,27 +92,6 @@
 			loading = false;
 		} catch (e: any) {
 			error = true;
-			errMsg = e.response.data.detail;
-			if (errMsg == undefined) {
-				errMsg = 'Something went wrong...';
-			}
-			loading = false;
-		}
-	}
-
-	async function del(dkey: string) {
-		let data: any;
-		loading = true;
-		try {
-			const response = await axios.delete(window.location.origin + '/api/delete?key=' + dkey);
-			data = response.data;
-			error = false;
-			errMsg = '';
-			loading = false;
-			await get_all_links();
-		} catch (e: any) {
-			error = true;
-			data = null;
 			errMsg = e.response.data.detail;
 			if (errMsg == undefined) {
 				errMsg = 'Something went wrong...';
@@ -141,7 +142,7 @@
 				shortLink={link.shortLink}
 				date={link.date}
 				key={link.key}
-				del={del}
+				{delete_link}
 			/>
 		{/each}
 	{:else if loading}
