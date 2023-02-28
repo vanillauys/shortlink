@@ -16,10 +16,12 @@
 				url: url
 			});
 			data = response.data;
-			loading = false;
+			error = false;
 			errMsg = '';
+			loading = false;
 		} catch (e: any) {
 			error = true;
+			data = null;
 			errMsg = e.response.data.detail;
 			loading = false;
 		}
