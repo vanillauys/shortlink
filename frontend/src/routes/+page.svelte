@@ -1,11 +1,10 @@
 <script lang="ts">
     import axios from 'axios';
-    import { page } from '$app/stores';
 
 	let data: any;
     async function test() {
 		try {
-			const response = await axios.get(window.location.origin + '/backend/');
+			const response = await axios.get(window.location.origin + '/api/');
 			data = response.data.detail;
 		} catch (error: any) {
             console.log(error);
