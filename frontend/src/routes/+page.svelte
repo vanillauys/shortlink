@@ -4,7 +4,12 @@
 	import Error from '../lib/Error.svelte';
 
 	let url: string;
-	let data: any = null;
+	let data: any = {
+		title: "New title",
+		fullLink: "https://www.google.com",
+		shortLink: "https://cutt.ly/oicwcce",
+		date: "2020-01-01"
+	};
 	let loading: boolean = false;
 	let errMsg: string;
 	let error: boolean = false;
@@ -23,6 +28,9 @@
 			error = true;
 			data = null;
 			errMsg = e.response.data.detail;
+			if (errMsg == undefined) {
+				errMsg = "Something went wrong..."
+			}
 			loading = false;
 		}
 	}
@@ -31,7 +39,7 @@
 <div class="container px-12 py-12 flex flex-col justify-center mx-auto">
 	<h1 class="mx-auto text-5xl uppercase font-thin tracking-wide">Shrtn</h1>
 	<p class="text-xl mx-auto mt-6 font-normal">
-		A simple URL shortener built on
+		Simple URL shortener built on
 		<a href="https://deta.space" target="_blank" rel="noreferrer" class="italic"> Deta.space 🚀 </a>
 	</p>
 

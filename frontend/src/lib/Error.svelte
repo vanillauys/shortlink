@@ -2,7 +2,7 @@
     export let errMsg: string;
 </script>
 
-<div class="alert alert-error shadow-lg w-3/5 py-8">
+<div class="alert alert-error shadow-lg w-2/5 mx-auto mt-8">
 	<div>
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
