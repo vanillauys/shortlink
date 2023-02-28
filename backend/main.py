@@ -143,6 +143,20 @@ def get():
     return JSONResponse(status_code=code, content=response)
 
 
+@app.delete('/delete', tags=['Links'],
+    response_model=schemas.Detail,
+    responses={
+        500: {"model": schemas.Detail},
+    }
+)
+def delete(key: str):
+    """
+    ### Delete a saved link.
+    """
+    code, response = db.delete_link(key)
+    return JSONResponse(status_code=code, content=response)
+
+
 # ---------------------------------------------------------------------------- #
 # --- Main ------------------------------------------------------------------- #
 # ---------------------------------------------------------------------------- #

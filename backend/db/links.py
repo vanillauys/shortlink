@@ -51,4 +51,12 @@ class LinksDB():
             return 200, all_items
         except Exception:
             return 500, {'detail': "An error occured while fetching all shortlinks"}
+    
+
+    def delete_link(self, key: str) -> Tuple[int, str]:
+        try:
+            self.links.delete("one")
+            return 200, {'detail': f"Successfully deleted {key}"}
+        except Exception:
+            return 500, {'detail': f"An error occured while deleting {key}"}
 

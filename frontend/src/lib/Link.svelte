@@ -3,6 +3,8 @@
 	export let date: string;
 	export let fullLink: string;
 	export let shortLink: string;
+	export let key: string;
+	export let del: Function;	
 </script>
 
 <div class="collapse collapse-arrow border border-base-300 bg-neutral rounded-box mt-4">
@@ -12,9 +14,10 @@
 	</div>
 	<div class="collapse-content">
 		<ul class="text-lg justify-center flex flex-col">
-			<li class="mx-auto"><a href={shortLink}>{shortLink}</a></li>
-			<li class="mx-auto"><a href={fullLink}>{fullLink}</a></li>
+			<li class="mx-auto"><a href={shortLink} target="_blank" rel="noreferrer">{shortLink}</a></li>
+			<li class="mx-auto"><a href={fullLink} target="_blank" rel="noreferrer">{fullLink}</a></li>
 			<li class="mx-auto">{date}</li>
 		</ul>
+		<button class="btn btn-error mt-4 mx-auto" on:click={async () => del(key)}><img src="/del.svg" alt="Delete" /></button>
 	</div>
 </div>

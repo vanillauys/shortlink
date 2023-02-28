@@ -78,6 +78,27 @@
 		}
 	}
 
+	async function del(dkey: string) {
+		let data: any;
+		loading = true;
+		try {
+			const response = await axios.delete(window.location.origin + '/api/delete?key=' + dkey);
+			data = response.data;
+			error = false;
+			errMsg = '';
+			loading = false;
+			await get_all_links();
+		} catch (e: any) {
+			error = true;
+			data = null;
+			errMsg = e.response.data.detail;
+			if (errMsg == undefined) {
+				errMsg = 'Something went wrong...';
+			}
+			loading = false;
+		}
+	}
+
 	onMount(async () => await get_all_links());
 </script>
 
@@ -119,6 +140,8 @@
 				fullLink={link.fullLink}
 				shortLink={link.shortLink}
 				date={link.date}
+				key={link.key}
+				del={del}
 			/>
 		{/each}
 	{:else if loading}
