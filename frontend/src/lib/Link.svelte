@@ -23,7 +23,7 @@
 				class="btn btn-error mt-4 w-10 mx-auto text-center"
 				on:click={async () => await delete_link(key)}
 			>
-				<img src="/del.svg" class="h-6 w-auto mx-auto" alt="Delete" />
+				<img src="/del.svg" class="h-8 w-auto mx-auto" alt="Delete" />
 			</button>
 		</div>
 	</div>
